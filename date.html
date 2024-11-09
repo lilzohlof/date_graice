@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knock Knock</title>
+  <style>
+    body {
+      background-color: #FFFACD;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #B8860B;
+      font-size: 5em;
+      margin-top: 50px;
+      opacity: 0.1;
+    }
+    .invitation {
+      font-size: 2em;
+      color: #556B2F;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 600px;
+    }
+    .button-container {
+      margin-top: 30px;
+    }
+    .btn {
+      font-size: 1.5em;
+      color: white;
+      background-color: #B8860B;
+      border: none;
+      border-radius: 50%;
+      width: 200px;
+      height: 200px;
+      margin: 20px;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    .btn:hover {
+      transform: scale(1.1);
+      transition: all 0.2s ease-in-out;
+    }
+    #noBtn {
+      position: absolute;
+    }
+    .textbox-container {
+      display: none;
+      margin-top: 30px;
+    }
+    .textbox {
+      font-size: 1.5em;
+      padding: 10px;
+      width: 70%;
+      max-width: 600px;
+    }
+    .message {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #556B2F;
+    }
+    #hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Knock Knock</h1>
+  <div class="invitation">
+    This is a formal invitation to go on a date with me, will you Graice?
+  </div>
+  <div class="button-container">
+    <button class="btn" onclick="yesClick()">Yes</button>
+    <button class="btn" id="noBtn" onmouseover="noHover()">No</button>
+  </div>
+  <div class="textbox-container" id="textboxContainer">
+    <input type="text" class="textbox" placeholder="When do you have a free time to online date?">
+    <div class="message">I know we are in different countries, but I would love to wait for you and take a plane just to build something together.</div>
+  </div>
+  <canvas id="hearts"></canvas>
+
+  <script>
+    function yesClick() {
+      const textboxContainer = document.getElementById("textboxContainer");
+      textboxContainer.style.display = "block";
+
+      // Hearts Animation
+      const canvas = document.getElementById("hearts");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const hearts = [];
+      for (let i = 0; i < 150; i++) {
+        hearts.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 20 + 10,
+          dx: (Math.random() - 0.5) * 4,
+          dy: (Math.random() - 0.5) * 4,
+        });
+      }
+
+      function drawHearts() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hearts.forEach((heart) => {
+          ctx.beginPath();
+          ctx.moveTo(heart.x, heart.y);
+          ctx.bezierCurveTo(
+            heart.x - heart.size,
+            heart.y - heart.size,
+            heart.x - heart.size * 2,
+            heart.y + heart.size / 3,
+            heart.x,
+            heart.y + heart.size
+          );
+          ctx.bezierCurveTo(
+            heart.x + heart.size * 2,
+            heart.y + heart.size / 3,
+            heart.x + heart.size,
+            heart.y - heart.size,
+            heart.x,
+            heart.y
+          );
+          ctx.fillStyle = "red";
+          ctx.fill();
+          heart.x += heart.dx;
+          heart.y += heart.dy;
+
+          if (heart.x < 0 || heart.x > canvas.width || heart.y < 0 || heart.y > canvas.height) {
+            heart.x = Math.random() * canvas.width;
+            heart.y = Math.random() * canvas.height;
+          }
+        });
+        requestAnimationFrame(drawHearts);
+      }
+
+      drawHearts();
+    }
+
+    function noHover() {
+      const noBtn = document.getElementById("noBtn");
+      noBtn.style.top = Math.random() * (window.innerHeight - 200) + "px";
+      noBtn.style.left = Math.random() * (window.innerWidth - 200) + "px";
+    }
+  </script>
+</body>
+</html>
